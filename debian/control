@@ -1,0 +1,19 @@
+Source: stromx-zbar
+Priority: extra
+Maintainer: Matthias Fuchs <stromx-devel@googlegroups.com>
+Build-Depends: debhelper (>= 7.0.50~), cmake, cdbs, libzbar-dev, libopencv-dev, libcppunit-dev
+Standards-Version: 3.9.1
+Section: libs
+Homepage: http://www.stromx.org
+
+Package: libstromx-zbar
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Stromx operators ZBar
+
+Package: libstromx-zbar-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, libstromx-zbar (= ${binary:Version})
+Description: Development files for stromx-zbar
