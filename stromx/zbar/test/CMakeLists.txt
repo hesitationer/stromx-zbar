@@ -5,6 +5,8 @@ if(MSVC)
     add_definitions(/DSTROMX_ZBAR_STATIC)
 endif(MSVC)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/barcode.png ${CMAKE_CURRENT_BINARY_DIR}/barcode.png COPYONLY)
+
 include_directories (
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
@@ -14,6 +16,7 @@ include_directories (
 
 set (SOURCES 
     ../Scan.cpp
+    ../Zbar.cpp
     main.cpp
     ScanTest.cpp
 )

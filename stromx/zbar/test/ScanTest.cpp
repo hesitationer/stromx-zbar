@@ -14,37 +14,71 @@
 *  limitations under the License.
 */
 
-#include "stromx/zbar/test/ScanTest.h"
-
+#include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/TestAssert.h>
+#include <cppunit/TestFixture.h>
 
+#include <stromx/runtime/DataContainer.h>
+#include <stromx/runtime/List.h>
 #include <stromx/runtime/OperatorTester.h>
 #include <stromx/runtime/ReadAccess.h>
+#include <stromx/runtime/String.h>
+#include <stromx/cvsupport/Image.h>
 
 #include "stromx/zbar/Scan.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION (stromx::zbar::ScanTest);
-
 namespace stromx
 {
-    using namespace runtime;
+namespace zbar
+{
 
-    namespace zbar
-    {
-        void ScanTest::setUp ( void )
-        {
-            m_operator = new runtime::OperatorTester(new Scan());
-            m_operator->initialize();
-            m_operator->activate();
-        }
+class ScanTest : public CPPUNIT_NS :: TestFixture
+{
+    CPPUNIT_TEST_SUITE (ScanTest);
+    CPPUNIT_TEST (testExecute);
+    CPPUNIT_TEST_SUITE_END ();
+
+    public:
+        ScanTest() : m_operator(0) {}
         
-        void ScanTest::testExecute()
-        {
-        }
+        void setUp();
+        void tearDown();
+
+    protected:
+        void testExecute();
         
-        void ScanTest::tearDown ( void )
-        {
-            delete m_operator;
-        }
-    }
+    private:
+        runtime::OperatorTester* m_operator;
+};
+
+CPPUNIT_TEST_SUITE_REGISTRATION (ScanTest);
+
+void ScanTest::setUp ( void )
+{
+    m_operator = new runtime::OperatorTester(new Scan());
+    m_operator->initialize();
+    m_operator->activate();
 }
+
+void ScanTest::testExecute()
+{
+    runtime::DataContainer input(new cvsupport::Image("barcode.png"));    
+    m_operator->setInputData(Scan::INPUT, input);
+    
+    runtime::DataContainer result = m_operator->getOutputData(Scan::SYMBOLS);
+    
+    runtime::ReadAccess access(result);
+    const std::vector<const runtime::Data*> & content = access.get<runtime::List>().content();
+    CPPUNIT_ASSERT_EQUAL(std::size_t(1), content.size());
+    const runtime::String* symbol = runtime::data_cast<runtime::String>(content[0]);
+    CPPUNIT_ASSERT_EQUAL(symbol->get(), std::string("9876543210128"));
+}
+
+void ScanTest::tearDown ( void )
+{
+    delete m_operator;
+}
+
+}
+}
+

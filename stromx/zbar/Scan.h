@@ -21,42 +21,54 @@
 
 #include "stromx/zbar/Zbar.h"
 
+namespace zbar
+{
+class ImageScanner;
+}
+
 namespace stromx
 {
-    namespace zbar
+namespace zbar
+{
+
+class STROMX_ZBAR_API Scan : public runtime::OperatorKernel
+{
+public:      
+    enum InputId
     {
-        class STROMX_ZBAR_API Scan : public runtime::OperatorKernel
-        {
-        public:      
-            enum InputId
-            {
-            };
-            
-            enum OutputId
-            {
-            };
-            
-            enum ParameterId
-            {
-            };
-            
-            Scan();
-            
-            virtual OperatorKernel* clone() const { return new Scan; }
-            virtual const runtime::DataRef getParameter(const unsigned int id) const;
-            virtual void setParameter(const unsigned int id, const runtime::Data& value);
-            virtual void execute(runtime::DataProvider& provider);
-            
-        private:
-            static const std::string TYPE;
-            static const std::string PACKAGE;
-            static const runtime::Version VERSION; 
-            
-            static const std::vector<const runtime::Description*> setupInputs();
-            static const std::vector<const runtime::Description*> setupOutputs();
-            static const std::vector<const runtime::Parameter*> setupParameters();
-        };       
-    }
+        INPUT
+    };
+    
+    enum OutputId
+    {
+        SYMBOLS
+    };
+    
+    enum ParameterId
+    {
+    };
+    
+    Scan();
+    ~Scan();
+    
+    virtual OperatorKernel* clone() const { return new Scan; }
+    virtual const runtime::DataRef getParameter(const unsigned int id) const;
+    virtual void setParameter(const unsigned int id, const runtime::Data& value);
+    virtual void execute(runtime::DataProvider& provider);
+    
+private:
+    static const std::string TYPE;
+    static const std::string PACKAGE;
+    static const runtime::Version VERSION; 
+    
+    static const std::vector<const runtime::Description*> setupInputs();
+    static const std::vector<const runtime::Description*> setupOutputs();
+    static const std::vector<const runtime::Parameter*> setupParameters();
+    
+    ::zbar::ImageScanner* m_zbarScanner;
+}; 
+      
+}
 }
 
 #endif // STROMX_ZBAR_SCAN_H
