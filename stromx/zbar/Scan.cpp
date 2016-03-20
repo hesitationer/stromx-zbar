@@ -24,6 +24,7 @@
 #include <stromx/runtime/Matrix.h>
 #include <stromx/runtime/MatrixDescription.h>
 #include <stromx/runtime/ReadAccess.h>
+#include <stromx/runtime/String.h>
 #include <stromx/runtime/Variant.h>
 
 #include "stromx/zbar/Locale.h"
@@ -62,7 +63,7 @@ const runtime::DataRef Scan::getParameter(const unsigned int id) const
     }
 }
 
-void Scan::setParameter(const unsigned int id, const runtime::Data& value)
+void Scan::setParameter(const unsigned int id, const runtime::Data& /*value*/)
 {
     try
     {
@@ -88,9 +89,24 @@ void Scan::execute(runtime::DataProvider& provider)
     if (! image.variant().isVariant(runtime::Variant::MONO_8_IMAGE))
         throw runtime::InputError(INPUT, *this, "Wrong input data variant.");
     
-    runtime::List* symbols = new runtime::List();
-    DataContainer result(symbols);
+    ::zbar::Image zbarImage(image.width(), image.height(), "YUV8", image.data(),
+                            image.height() * image.stride());
     
+    ::zbar::ImageScanner scanner;
+    scanner.set_config(::zbar::zbar_symbol_type_t(0), ::zbar::ZBAR_CFG_ENABLE, 1);
+    scanner.scan(zbarImage);
+    
+    runtime::List* symbols = new runtime::List();
+    
+    const ::zbar::SymbolSet & zbarSymbols = scanner.get_results();
+    for (::zbar::SymbolIterator iter = zbarSymbols.symbol_begin();
+         iter != zbarSymbols.symbol_end();
+         ++iter)
+    {
+        symbols->content().push_back(new String(iter->get_data()));
+    }
+    
+    DataContainer result(symbols);
     provider.sendOutputData(runtime::Id2DataPair(SYMBOLS, result));
 }
 
