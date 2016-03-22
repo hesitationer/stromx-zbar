@@ -43,13 +43,13 @@ else(WIN32)
     )
 endif(WIN32)
 
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/stromx/stromx_zbar
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/stromx/zbar
     DESTINATION include/stromx
     FILES_MATCHING PATTERN "*.h"
     PATTERN "test" EXCLUDE
 )
 
-install(FILES ${CMAKE_BINARY_DIR}/stromx/stromx_zbar/Config.h
+install(FILES ${CMAKE_BINARY_DIR}/stromx/zbar/Config.h
     DESTINATION include/stromx/zbar
 )
 

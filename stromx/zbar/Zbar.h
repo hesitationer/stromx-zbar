@@ -13,7 +13,7 @@ namespace stromx
 
 extern "C"
 {
-    STROMX_ZBAR_API int stromxRegisterCvcalib3d(stromx::runtime::Registry* registry);
+    STROMX_ZBAR_API int stromxRegisterZbar(stromx::runtime::Registry* registry);
 }
 
 #endif // STROMX_ZBAR_ZBAR_H

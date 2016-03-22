@@ -20,7 +20,15 @@
         #endif // stromx_zbar_EXPORTS
     #endif // STROMX_ZBAR_STATIC
 #else // WIN32
-    #define STROMX_ZBAR_API
+    #ifdef STROMX_ZBAR_STATIC
+        #define STROMX_ZBAR_API
+    #else // STROMX_ZBAR_STATIC
+        #ifdef stromx_zbar_EXPORTS
+            #define STROMX_ZBAR_API __attribute__ ((visibility ("default")))
+        #else // stromx_zbar_EXPORTS
+            #define STROMX_ZBAR_API
+        #endif // stromx_zbar_EXPORTS
+    #endif // STROMX_ZBAR_STATIC
 #endif // WIN32
 
 #endif // STROMX_ZBAR_CONFIG_H
