@@ -18,6 +18,9 @@
 #include <cppunit/TestAssert.h>
 #include <cppunit/TestFixture.h>
 
+#include <zbar.h>
+
+#include <stromx/runtime/ConstDataRef.h>
 #include <stromx/runtime/DataContainer.h>
 #include <stromx/runtime/List.h>
 #include <stromx/runtime/OperatorTester.h>
@@ -36,6 +39,7 @@ class ScanTest : public CPPUNIT_NS :: TestFixture
 {
     CPPUNIT_TEST_SUITE (ScanTest);
     CPPUNIT_TEST (testExecute);
+    CPPUNIT_TEST (testSetSymbolType);
     CPPUNIT_TEST_SUITE_END ();
 
     public:
@@ -46,6 +50,7 @@ class ScanTest : public CPPUNIT_NS :: TestFixture
 
     protected:
         void testExecute();
+        void testSetSymbolType();
         
     private:
         runtime::OperatorTester* m_operator;
@@ -62,7 +67,8 @@ void ScanTest::setUp ( void )
 
 void ScanTest::testExecute()
 {
-    runtime::DataContainer input(new cvsupport::Image("barcode.png"));    
+    runtime::DataContainer input(new cvsupport::Image("barcode.png")); 
+    m_operator->setParameter(Scan::SYMBOL_TYPE, runtime::Enum(::zbar::ZBAR_EAN13));
     m_operator->setInputData(Scan::INPUT, input);
     
     runtime::DataContainer result = m_operator->getOutputData(Scan::SYMBOLS);
@@ -72,6 +78,15 @@ void ScanTest::testExecute()
     CPPUNIT_ASSERT_EQUAL(std::size_t(1), content.size());
     const runtime::String* symbol = runtime::data_cast<runtime::String>(content[0]);
     CPPUNIT_ASSERT_EQUAL(symbol->get(), std::string("9876543210128"));
+}
+
+void ScanTest::testSetSymbolType()
+{
+    m_operator->setParameter(Scan::SYMBOL_TYPE, runtime::Enum(::zbar::ZBAR_EAN13));
+    runtime::DataRef value = m_operator->getParameter(Scan::SYMBOL_TYPE);
+    
+    CPPUNIT_ASSERT_EQUAL(runtime::Enum(::zbar::ZBAR_EAN13),
+                         runtime::data_cast<runtime::Enum>(value));
 }
 
 void ScanTest::tearDown ( void )

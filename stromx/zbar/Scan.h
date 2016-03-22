@@ -46,6 +46,7 @@ public:
     
     enum ParameterId
     {
+        SYMBOL_TYPE
     };
     
     Scan();
@@ -66,6 +67,7 @@ private:
     static const std::vector<const runtime::Parameter*> setupParameters();
     
     ::zbar::ImageScanner* m_zbarScanner;
+    runtime::Enum m_symbolType;
 }; 
       
 }
