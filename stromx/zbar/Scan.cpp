@@ -39,7 +39,7 @@ namespace stromx
 namespace zbar
 {        
 
-const std::string Scan::TYPE("SCAN");
+const std::string Scan::TYPE("Scan");
 
 const std::string Scan::PACKAGE(STROMX_ZBAR_PACKAGE_NAME);
 const runtime::Version Scan::VERSION(0, 1, 0);
