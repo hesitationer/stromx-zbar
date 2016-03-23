@@ -15,7 +15,7 @@ namespace stromx
     }
 }
 
-STROMX_ZBAR_API int stromxRegisterZbar(stromx::runtime::Registry* registry)
+int stromxRegisterZbar(stromx::runtime::Registry* registry)
 {
     using namespace stromx::zbar;
     
