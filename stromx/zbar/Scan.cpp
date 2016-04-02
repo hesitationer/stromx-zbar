@@ -100,6 +100,8 @@ void Scan::execute(runtime::DataProvider& provider)
                             image.height() * image.stride());
     
     ::zbar::ImageScanner scanner;
+    scanner.set_config(::zbar::zbar_symbol_type_t(0), 
+                       ::zbar::ZBAR_CFG_ENABLE, 0);
     scanner.set_config(::zbar::zbar_symbol_type_t(int(m_symbolType)),
                        ::zbar::ZBAR_CFG_ENABLE, 1);
     scanner.scan(zbarImage);

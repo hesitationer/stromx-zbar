@@ -39,6 +39,7 @@ class ScanTest : public CPPUNIT_NS :: TestFixture
 {
     CPPUNIT_TEST_SUITE (ScanTest);
     CPPUNIT_TEST (testExecute);
+    CPPUNIT_TEST (testExecuteWrongSymbolType);
     CPPUNIT_TEST (testSetSymbolType);
     CPPUNIT_TEST_SUITE_END ();
 
@@ -50,6 +51,7 @@ class ScanTest : public CPPUNIT_NS :: TestFixture
 
     protected:
         void testExecute();
+        void testExecuteWrongSymbolType();
         void testSetSymbolType();
         
     private:
@@ -78,6 +80,19 @@ void ScanTest::testExecute()
     CPPUNIT_ASSERT_EQUAL(std::size_t(1), content.size());
     const runtime::String* symbol = runtime::data_cast<runtime::String>(content[0]);
     CPPUNIT_ASSERT_EQUAL(symbol->get(), std::string("9876543210128"));
+}
+
+void ScanTest::testExecuteWrongSymbolType()
+{
+    runtime::DataContainer input(new cvsupport::Image("barcode.png")); 
+    m_operator->setParameter(Scan::SYMBOL_TYPE, runtime::Enum(::zbar::ZBAR_EAN8));
+    m_operator->setInputData(Scan::INPUT, input);
+    
+    runtime::DataContainer result = m_operator->getOutputData(Scan::SYMBOLS);
+    
+    runtime::ReadAccess access(result);
+    const std::vector<const runtime::Data*> & content = access.get<runtime::List>().content();
+    CPPUNIT_ASSERT_EQUAL(std::size_t(0), content.size());
 }
 
 void ScanTest::testSetSymbolType()
