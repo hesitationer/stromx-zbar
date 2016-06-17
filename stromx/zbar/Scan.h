@@ -32,20 +32,12 @@ namespace zbar
 {
 
 class STROMX_ZBAR_API Scan : public runtime::OperatorKernel
-{
+{   
 public:      
-    enum InputId
+    enum DataId
     {
-        INPUT
-    };
-    
-    enum OutputId
-    {
-        SYMBOLS
-    };
-    
-    enum ParameterId
-    {
+        INPUT,
+        SYMBOLS,
         SYMBOL_TYPE
     };
     
