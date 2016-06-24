@@ -120,22 +120,22 @@ void Scan::execute(runtime::DataProvider& provider)
     provider.sendOutputData(runtime::Id2DataPair(SYMBOLS, result));
 }
 
-const std::vector<const runtime::Description*> Scan::setupInputs()
+const std::vector<const runtime::Input*> Scan::setupInputs()
 {
-    std::vector<const Description*> inputs;
+    std::vector<const Input*> inputs;
     
-    runtime::Description* input = new runtime::Description(INPUT, runtime::Variant::MONO_8_IMAGE);
+    runtime::Input* input = new runtime::Input(INPUT, runtime::Variant::MONO_8_IMAGE);
     input->setTitle(L_("Input"));
     inputs.push_back(input);
                     
     return inputs;
 }
 
-const std::vector<const runtime::Description*> Scan::setupOutputs()
+const std::vector<const runtime::Output*> Scan::setupOutputs()
 {
-    std::vector<const runtime::Description*> outputs;
+    std::vector<const runtime::Output*> outputs;
     
-    runtime::Description* symbols = new runtime::Description(SYMBOLS, runtime::Variant::LIST);
+    runtime::Output* symbols = new runtime::Output(SYMBOLS, runtime::Variant::LIST);
     symbols->setTitle(L_("Symbols"));
     outputs.push_back(symbols);
     
