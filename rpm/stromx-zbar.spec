@@ -28,7 +28,7 @@ URL:            http://www.stromx.org
 Source0:        %{name}-%{version}.tar.bz2
 # BuildArch:      noarch
 
-BuildRequires:  cmake gcc-c++ stromx-devel libzbar0-devel cppunit-devel
+BuildRequires:  cmake gcc-c++ stromx-devel libzbar-devel cppunit-devel
 # Requires:       
 
 %description
