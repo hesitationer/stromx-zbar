@@ -17,7 +17,7 @@
 
 # norootforbuild
 
-Name:           libstromx_zbar0_1
+Name:           libstromx_zbar0_1_0
 Version:        0.1.0
 Release:        0
 Summary:        Stromx operators for ZBar
