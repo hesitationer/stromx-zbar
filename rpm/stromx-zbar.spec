@@ -77,17 +77,21 @@ rm -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 
+
 %postun -p /sbin/ldconfig
+
 
 %files
 %defattr(0644, root, root, 0755)
 %doc
 %{_libdir}/*.so.*
 
+
 %files -n stromx-zbar-devel
 %defattr(0644, root, root, 0755)
 %doc
 %{_includedir}/*
 %{_libdir}/*.so
+
 
 %changelog
