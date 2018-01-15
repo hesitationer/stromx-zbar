@@ -69,7 +69,7 @@ void ScanTest::setUp ( void )
 
 void ScanTest::testExecute()
 {
-    runtime::DataContainer input(new cvsupport::Image("barcode.png")); 
+    runtime::DataContainer input(new cvsupport::Image("barcode.png", cvsupport::Image::GRAYSCALE)); 
     m_operator->setParameter(Scan::SYMBOL_TYPE, runtime::Enum(::zbar::ZBAR_EAN13));
     m_operator->setInputData(Scan::INPUT, input);
     
@@ -84,7 +84,7 @@ void ScanTest::testExecute()
 
 void ScanTest::testExecuteWrongSymbolType()
 {
-    runtime::DataContainer input(new cvsupport::Image("barcode.png")); 
+    runtime::DataContainer input(new cvsupport::Image("barcode.png", cvsupport::Image::GRAYSCALE)); 
     m_operator->setParameter(Scan::SYMBOL_TYPE, runtime::Enum(::zbar::ZBAR_EAN8));
     m_operator->setInputData(Scan::INPUT, input);
     
